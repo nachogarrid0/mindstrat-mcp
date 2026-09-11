@@ -1,0 +1,538 @@
+{
+  "_comment": "Generated — do not hand-edit. Run Internal_Workspace/mcp/build/generate_appdata_snapshot.py. Used only when the app's source is not reachable, i.e. on a machine that has the app but not the repo.",
+  "search_methods": [
+    "Annealing Thermal",
+    "Brute Force",
+    "Random",
+    "Random Improvements",
+    "Sequential Improvement",
+    "Sequential Jump",
+    "Sequential MC"
+  ],
+  "monte_carlo_modes": [
+    "bootstrap",
+    "cost_degradation",
+    "drop_best_trades",
+    "drop_cluster",
+    "drop_pct",
+    "noise_injection",
+    "shuffle",
+    "time_slice"
+  ],
+  "enums": {
+    "list_backtests.sort_by": [
+      "recent",
+      "sharpe_desc",
+      "return_desc",
+      "drawdown_asc"
+    ],
+    "get_trades.side": [
+      "long",
+      "short",
+      "None"
+    ],
+    "get_trades.outcome": [
+      "winners",
+      "losers",
+      "breakeven",
+      "None"
+    ],
+    "get_trades.sort_by": [
+      "chronological",
+      "pnl_desc",
+      "pnl_asc",
+      "duration_desc"
+    ]
+  },
+  "validation_text": {
+    "optimizer": {
+      "header": {
+        "strategy": "Strategy",
+        "select": "Select...",
+        "dataset": "Dataset",
+        "method": "Method",
+        "metric": "Metric",
+        "cycles": "Cycles",
+        "cyclesLockedHint": "Rolling sweeps the whole parameter grid in every fold: the grid sets the cycle count.",
+        "cpuThreads": "CPU Threads",
+        "duration": "Duration",
+        "generated": "Generated",
+        "accepted": "Accepted",
+        "strategiesPerHour": "Strat/hr",
+        "start": "Start optimization",
+        "stop": "Stop",
+        "pause": "Pause",
+        "resume": "Resume",
+        "startDate": "Start date",
+        "endDate": "End date",
+        "rangeLabels": {
+          "start": "Start",
+          "end": "End"
+        },
+        "filtersTooltip": "Configure metric filters",
+        "filtersDisabledRolling": "Filters don't apply in Walk-Forward Rolling",
+        "status": {
+          "idle": "Ready",
+          "starting": "Starting",
+          "running": "Running",
+          "paused": "Paused",
+          "stopping": "Stopping",
+          "finished": "Finished"
+        },
+        "seq": {
+          "seqMode": "Seq Mode",
+          "loops": "Loops",
+          "jump": "Jump",
+          "termination": "Termination",
+          "noImprovement": "No improvement",
+          "noImprovementMin": "No improvement (min)",
+          "modes": {
+            "oneLoop": "1 loop",
+            "nLoops": "N loops",
+            "untilNoImprovement": "Until no improvement"
+          },
+          "termModes": {
+            "never": "Never",
+            "cycles": "After X cycles",
+            "minutes": "After X minutes"
+          }
+        }
+      },
+      "filters": {
+        "title": "Metric filters",
+        "empty": "No configurable metrics available.",
+        "metric": "Metric",
+        "operator": "Operator",
+        "value": "Value",
+        "valueMax": "Max value",
+        "between": "Between",
+        "clear": "Clear",
+        "cancel": "Cancel",
+        "apply": "Apply"
+      },
+      "realtime": {
+        "title": "Realtime counters",
+        "runtimeStatus": "Runtime status",
+        "loopsCompleted": "Loops completed",
+        "jumpsDone": "Jumps done",
+        "statuses": {
+          "starting": "Initializing",
+          "running": "Running",
+          "paused": "Paused",
+          "stopping": "Finalizing",
+          "idle": "Idle"
+        },
+        "rows": {
+          "generated": "Strategies generated",
+          "runningTime": "Running time so far",
+          "timePerStrategy": "Time per strategy",
+          "acceptedTotal": "Total accepted strategies",
+          "stratPerMin": "Strategies/min",
+          "stratPerHour": "Strategies/hr",
+          "queueSize": "Strategy queue size",
+          "loadQueueSize": "Load data queue size",
+          "queuePauses": "Queue drain pauses",
+          "acceptedPerHour": "Accepted strategies/hr"
+        }
+      },
+      "table": {
+        "settings": {
+          "title": "Best strategies settings",
+          "showCurve": "Show PnL mini curve",
+          "showHoldout": "Show Hold-Out / Walk-Forward results",
+          "showMonteCarlo": "Show Monte Carlo results",
+          "keepBest": "Keep N best results (Max 20)",
+          "keepBestHint": "The system will keep only the 20 best strategies in memory to avoid interface freezes.",
+          "keepBestPlaceholder": "Limited to 20",
+          "queueSize": "Max DB queue size (10-10000)",
+          "queueSizeHint": "For heavy strategies use lower values (e.g., 50–100) to reduce memory usage. Higher values improve throughput for lightweight strategies.",
+          "cancel": "Cancel",
+          "save": "Save"
+        },
+        "columns": {
+          "index": "#",
+          "category": "Category",
+          "detail": "Detail",
+          "pnl": "Curve",
+          "profit": "Net Profit",
+          "roi": "ROI %",
+          "trades": "Trades",
+          "winrate": "Win Rate",
+          "drawdown": "Max DD",
+          "error": "Error"
+        },
+        "searchPlaceholder": "Search by parameters",
+        "minMetricPlaceholder": "Min",
+        "onlyPositive": "Only positive metrics",
+        "withMonteCarlo": "With Monte Carlo",
+        "clearFilters": "Clear filters",
+        "emptyState": "As optimization results arrive, you will see the best parameters here."
+      },
+      "statusBar": {
+        "timePerStrategy": "T/Strat:",
+        "speed": "Speed:",
+        "queueLoad": "Load Queue:",
+        "dbQueue": "DB Queue:",
+        "queueStrat": "Strat Queue:",
+        "pauses": "Drain Pauses:",
+        "ram": "RAM:",
+        "loops": "Loops:"
+      },
+      "metrics": {
+        "duration": "Duration",
+        "generated": "Generated",
+        "accepted": "Accepted",
+        "acceptedPerHour": "Acc/H",
+        "speed": "Strat/H",
+        "settings": "Settings"
+      },
+      "foldPanel": {
+        "compoundedCurve": "Compounded OOS curve",
+        "waiting": "Waiting for fold results…",
+        "foldLabel": "Fold {{n}}",
+        "running": "optimizing…",
+        "pending": "pending"
+      },
+      "strategyDetail": {
+        "unknown": "Unknown",
+        "optimizedStrategy": "Optimized Strategy",
+        "categoryStrategy": "{{category}} Strategy",
+        "errorUnknown": "Unknown error"
+      },
+      "historical": {
+        "noSymbol": "No symbol",
+        "noTimeframe": "No timeframe",
+        "rows": "{{value}} rows",
+        "loading": "Loading market data…",
+        "saving": "Saving range…",
+        "marketAsset": "Market Asset"
+      },
+      "queue": {
+        "titlePaused": "The result queue is paused to prevent saturating the application.",
+        "titleCongestion": "We detected congestion in the optimizer's result queue.",
+        "pendingWithCapacity": "Pending messages: {{pending}} ({{pct}}% of capacity)",
+        "pendingPlain": "Pending messages: {{pending}}",
+        "pendingUnknown": "Pending messages: n/a",
+        "localBacklog": "Local backlog: {{value}}",
+        "timing": "Elapsed: {{elapsed}} · ETA: {{eta}}",
+        "freedCapacity": "Freed capacity: {{pct}}%"
+      },
+      "parameterGrid": {
+        "deselectAll": "Deselect all",
+        "selectAll": "Select all",
+        "parameter": "Parameter",
+        "default": "Default",
+        "range": "Range",
+        "step": "Step",
+        "priority": "Priority",
+        "namePlaceholder": "Name",
+        "defaultPlaceholder": "Default",
+        "defaultLocked": "Locked to the saved strategy while Walk-Forward Rolling is enabled",
+        "minPlaceholder": "Min",
+        "maxPlaceholder": "Max",
+        "stepPlaceholder": "Step",
+        "priorityPlaceholder": "Pri",
+        "empty": "No parameters configured"
+      },
+      "capital": {
+        "initialCapital": "Initial Capital ($)",
+        "orderMode": "Order Mode",
+        "orderModes": {
+          "fixedValue": "Fixed Amount ($)",
+          "percentOfEquity": "Percentage (%)",
+          "fixedQty": "Contracts"
+        },
+        "orderSize": "Order Size",
+        "commissionPercent": "Commission (%)",
+        "commissionFixed": "Commission ($)",
+        "commission": "Commission",
+        "commissionType": "Commission Type",
+        "commissionTypes": {
+          "percent": "Percent (%)",
+          "fixed": "Fixed ($)"
+        },
+        "slippage": "Slippage",
+        "slippageModes": {
+          "none": "None",
+          "fixed": "Fixed (bps)",
+          "volume": "Vol-Proportional"
+        },
+        "slippageBps": "Slippage (bps)",
+        "factorK": "Factor K"
+      },
+      "rolling": {
+        "trainLegend": "Train (Optimization)",
+        "valLegend": "Val (Validation)",
+        "foldLabel": "Fold {{index}} · Train",
+        "valShort": "Val",
+        "help": "Each row represents a fold. The orange block is the training window and green is validation. In rolling, each new fold shifts forward by one validation window."
+      },
+      "montecarlo": {
+        "title": "Monte Carlo Configuration",
+        "simulations": "Simulations per mode",
+        "perturbationModes": "Perturbation Modes",
+        "trigger": "Trigger",
+        "scoring": "Scoring",
+        "modeParameters": "{{label}} Parameters",
+        "policyWeights": {
+          "info": "Multiplier per active mode. The Default profile double-weights Drop Best Trades and Time Slice and boosts Cost Degradation and Drop Cluster; touching any slider switches to Custom. 1× = equal weight, 0× = silence, 2× = double-weight. Only active modes appear here.",
+          "noActiveModes": "Enable at least one mode above to adjust weights."
+        },
+        "presetCustom": "Custom",
+        "presets": {
+          "quick": "Quick",
+          "thorough": "Thorough",
+          "stress": "Stress Test"
+        },
+        "scoringProfiles": {
+          "default": "Default",
+          "custom": "Custom"
+        },
+        "modes": {
+          "shuffle": "Shuffle",
+          "bootstrap": "Bootstrap",
+          "timeSlice": "Time Slice",
+          "dropPctMode": "Drop Random %",
+          "dropBestTrades": "Drop Best Trades",
+          "dropCluster": "Drop Cluster",
+          "noiseInjection": "Noise Injection",
+          "costDegradation": "Cost Degradation"
+        },
+        "modeDescriptions": {
+          "shuffle": "Randomly reorder trade sequence",
+          "bootstrap": "Resample trades with replacement",
+          "timeSlice": "Test on random time windows",
+          "dropPctMode": "Remove a random percentage of trades",
+          "dropBestTrades": "Remove top trades to test robustness",
+          "dropCluster": "Remove consecutive trade clusters",
+          "noiseInjection": "Add random noise to trade P/L values",
+          "costDegradation": "Increase costs to test \"Edge\" / statistical advantage durability"
+        },
+        "modeExplanations": {
+          "shuffle": "Reorders your trades at random. If the result depends strongly on when each trade occurred, the equity curve changes a lot — meaning your backtest is sensitive to the sequence. Only perturbs the order, not the trades themselves.",
+          "bootstrap": "Samples your trades with replacement (some appear multiple times, others not at all). Generates alternative scenarios for what could have happened with a different sample. This is the primary mode for estimating the range of possible outcomes.",
+          "timeSlice": "Crops a window from the history and measures the strategy there. If the \"Edge\" / statistical advantage only worked in a specific period (a regime), windows outside that period will fail. Detects regime dependency.",
+          "dropPctMode": "Removes a random percentage of trades. Simulates what would happen if you missed some signals — the strategy should withstand losing some without losing all the \"Edge\" / statistical advantage.",
+          "dropBestTrades": "Removes the top X% most profitable trades. If after removing the best ones the strategy is no longer profitable, the \"Edge\" / statistical advantage depends on a few outliers. Dangerous: if those outliers don't repeat, the strategy dies.",
+          "dropCluster": "Removes a contiguous block of trades (simulates a losing streak, a connection outage, or a broken market period). Measures whether your strategy survives a concentrated bad streak.",
+          "noiseInjection": "Adds random noise to each trade (simulates slippage, imperfect fills, timing). Measures how much your result moves under realistic execution variation.",
+          "costDegradation": "Increases costs (slippage + commissions) on each trade by a random percentage. Measures what happens if your broker charges more, or if your fills are worse than assumed in the backtest."
+        },
+        "paramExplanations": {
+          "bootstrap": {
+            "blockSize": "Size of the block sampled each time. Small blocks (5-10) preserve little temporal context; large blocks (50+) preserve more correlation between nearby trades."
+          },
+          "timeSlice": {
+            "windowPct": "What fraction of the history each window covers. Small windows (10-30%) detect regimes better; large windows (60-90%) are less restrictive."
+          },
+          "dropPctMode": {
+            "dropPctMin": "Minimum % of trades to remove per simulation. Each sim picks a random value between Min and Max.",
+            "dropPctMax": "Maximum % of trades to remove per simulation. Each sim picks a random value between Min and Max."
+          },
+          "dropBestTrades": {
+            "dropBestPct": "What % of the most profitable trades to remove. Low (5-10%) is demanding; high (30%+) is brutal and almost always breaks the strategy.",
+            "dropBestJitter": "Random variation around the target %. Without jitter, every sim removes exactly the same trades and the result is deterministic — not really Monte Carlo."
+          },
+          "dropCluster": {
+            "clusterPctMin": "Minimum size of the contiguous block to remove, as % of total trades.",
+            "clusterPctMax": "Maximum size of the contiguous block to remove, as % of total trades."
+          },
+          "noiseInjection": {
+            "noisePct": "Noise magnitude as a fraction of your trades' std. 5% is realistic; 30%+ is high stress."
+          },
+          "costDegradation": {
+            "maxCostPct": "Maximum extra cost to apply per trade, as % of the trade value. 3% is realistic for liquid futures; 10%+ is stress."
+          }
+        },
+        "summary": "{{count}} mode{{plural}} · {{sims}} sims · {{profile}}"
+      },
+      "robustness": {
+        "groupBaseStrategy": "Base strategy validation",
+        "groupOptimization": "Optimization robustness",
+        "groupExecution": "Execution fidelity",
+        "holdoutValidation": "Hold-Out Validation",
+        "rollingWalkForward": "Rolling Walk-Forward",
+        "monteCarloSection": "Monte Carlo",
+        "mcDisabledRolling": "Monte Carlo can't be combined with Walk-Forward Rolling",
+        "intrabarSimulation": "Intrabar Simulation",
+        "testExplanations": {
+          "holdoutValidation": "Splits your history into two parts: \"train\" and \"validation\" (typically 70/30). Optimizes the strategy on \"train\" only, then runs the best found parameters on \"validation\" — data the optimization never saw. If \"train\" results don't hold on \"validation\", there's overfitting: you memorized the past instead of finding a real \"Edge\" / statistical advantage.",
+          "rollingWalkForward": "Unlike the other robustness tests, this one tests your strategy exactly as you loaded it, with its original parameters. It splits your history into several segments (folds) and moves forward in time, validating each segment on data it never saw. It tells you whether its advantage (its edge) holds up on new data or whether it just memorized the past (overfitting), and whether re-optimizing it periodically pays off more than leaving it with the parameters you set.",
+          "monteCarloSection": "Applies 8 different types of random perturbations to the backtest's trade sequence (reorder, resample, drop trades, add noise, raise costs, crop periods). For each perturbation it runs N simulations and measures how much the \"Edge\" / statistical advantage moves. The output is a 0-100 score describing how robust the backtest is under plausible variations.",
+          "intrabarSimulation": "Re-simulates your trades using candles smaller than the chart's timeframe. If you trade on 1h candles but stops/targets could have been hit intra-hour, this test uses 1m (or 3m/5m) candles to verify when each level was actually touched. Detects SL/TP the backtest 'skipped' by only looking at each large candle's close."
+        },
+        "configureHoldout": "Configure Hold-Out",
+        "configureRolling": "Configure Rolling Walk-Forward",
+        "configureMonteCarlo": "Configure Monte Carlo",
+        "configureIntrabar": "Configure Intrabar Simulation",
+        "trainPct": "Train %",
+        "valPct": "Validation %",
+        "triggerMode": "Trigger Mode",
+        "triggers": {
+          "cycles": "Every N Cycles",
+          "newBest": "New Best Strategy",
+          "everyPass": "Every Passed"
+        },
+        "triggerEvery": "Trigger Every",
+        "folds": "Folds",
+        "metric": "Metric",
+        "metricOptions": {
+          "netProfit": "Net Profit",
+          "sharpe": "Sharpe",
+          "sqn": "SQN"
+        },
+        "baselineMode": "Baseline mode",
+        "baselinePerFold": "Baseline per fold (PyQt5 style)",
+        "rollingWarn": "⚠️ Adjust Train/Validation so they sum exactly 100%.",
+        "timeframeOptional": "Timeframe (optional)",
+        "autoChartBased": "Auto (Chart based)",
+        "summaries": {
+          "everyN": "Every {{n}} cycles",
+          "newBest": "New Best",
+          "everyPassed": "Every Passed",
+          "trainVal": "Train {{train}}% / Val {{val}}% · {{trigger}}",
+          "foldsMetric": "{{folds}} folds · {{metric}}",
+          "auto": "Auto"
+        },
+        "walkForwardRolling": "Walk-Forward Rolling",
+        "holdOut": "Hold-Out",
+        "monteCarlo": "Monte Carlo",
+        "rollingDescription": "Compares training and validation profit per fold to validate multiple windows.",
+        "holdoutDescription": "Compares training and validation profit of the configured Hold-Out cut.",
+        "monteCarloDescription": "Evolution of pass rate and log of executions emitted by the distributed backend.",
+        "wfCaption": "Blue = training · Green = validation. {{count}} folds received.",
+        "wfEmpty": "No Walk-Forward results to display yet.",
+        "mcRobustness": "Robustness: {{pct}}% ({{label}})",
+        "mcWaiting": "Waiting for robustness score...",
+        "mcExecutions": "{{count}} executions.",
+        "mcEmpty": "Activate Monte Carlo and wait for results to visualize the robustness score.",
+        "noDataTitle": "No data available",
+        "noDataDescription": "Adjust robustness configurations and wait for backend results to visualize this view."
+      },
+      "dataset": {
+        "title": "Select historical dataset",
+        "close": "Close",
+        "cancel": "Cancel",
+        "confirm": "Select dataset",
+        "confirmLoading": "Loading…",
+        "retry": "Retry",
+        "loadingAvailable": "Loading available datasets…",
+        "noneFound": "No historical datasets available.",
+        "emptyHint": "Download a historical dataset from Market Assets to start running strategies.",
+        "downloadCta": "Download history",
+        "rows": "{{value}} rows",
+        "range": "Range:"
+      },
+      "validation": {
+        "noStrategy": "Select a strategy to optimize.",
+        "noDataset": "Select a valid history or dataset.",
+        "missingAuxDataset": "Select the auxiliary dataset \"{{slot}}\", which the strategy declares and requires.",
+        "cannotStart": "The optimization cannot start:",
+        "noMethod": "Choose an optimization method.",
+        "noMetric": "Select an objective metric.",
+        "workersRange": "Set worker count between {{min}} and {{max}}.",
+        "cyclesRange": "Set cycle count between {{min}} and {{max}}.",
+        "seqLoopsRange": "Set loop count between {{min}} and {{max}}.",
+        "jumpSizeRange": "Set jump size between {{min}} and {{max}}.",
+        "jumpCyclesRange": "Jump by cycles requires a value between {{min}} and {{max}}.",
+        "jumpMinutesRange": "Minute cutoff must be between {{min}} and {{max}} minutes.",
+        "paramNameMissing": "Define a parameter name for {{label}}.",
+        "paramRangesMissing": "Complete From/To/Step ranges for parameter «{{label}}».",
+        "paramPriorityInvalid": "Check numeric priority for «{{label}}».",
+        "wfMinFolds": "Rolling Walk-Forward requires at least 2 folds.",
+        "wfSum100": "Optimization and validation percentages must sum to 100%.",
+        "wfTriggerZero": "Walk Forward trigger needs a minimum cycle greater than zero.",
+        "mcNoMode": "Enable at least one Monte Carlo mode to generate synthetic curves.",
+        "mcTriggerZero": "Monte Carlo trigger needs a minimum cycle greater than zero."
+      },
+      "sections": {
+        "capital": "Capital & Management",
+        "robustness": "Robustness Tests",
+        "strategyDetail": "Strategy Detail",
+        "metrics": "Metrics",
+        "parameters": "Parameters",
+        "strategyParameters": "Strategy Parameters"
+      },
+      "actions": {
+        "startSuccess": "Optimization started successfully.",
+        "attachedToRunning": "An optimization is already running and this screen connected to it.",
+        "startError": "Failed to launch optimization.",
+        "resumeSuccess": "Optimization resumed successfully.",
+        "resumeError": "Failed to resume optimization.",
+        "finished": "Optimization finished.",
+        "rollingAttached": "Rolling result added to the saved strategy.",
+        "rollingSavedFromTemplate": "Saved strategy created with the rolling result.",
+        "waitFinishing": "Wait for the previous run to finish wrapping up.",
+        "waitPersistence": "Wait for history slice to finish saving.",
+        "selectStrategy": "Select a valid strategy before starting optimization.",
+        "loadHistory": "Load a valid history before starting optimization.",
+        "dateOrder": "Start date must be before end date.",
+        "loadFileEmpty": "Selected file is empty.",
+        "loadFileError": "Failed to read selected strategy.",
+        "loadFileSelect": "Select a valid file before continuing.",
+        "loadFileSuccess": "Strategy {{name}} loaded from file.",
+        "ramLimitTitle": "RAM limit reached",
+        "ramLimitMessage": "Optimization stopped: system RAM usage reached {{used}}% (limit {{max}}%).",
+        "ramLimitOk": "OK",
+        "resumeSelectRequired": "Select an optimization to resume.",
+        "retestSelectRequired": "Select an optimization for retest.",
+        "strategyLoadedForRetest": "Strategy loaded for retest.",
+        "optimizationPaused": "Optimization paused.",
+        "optimizationStopped": "Optimization stopped.",
+        "noActiveOptimizationToPause": "There is no active optimization to pause.",
+        "noActiveOptimizationToStop": "There is no active optimization to stop."
+      },
+      "errors": {
+        "historyLoadFailed": "Could not load historical data.",
+        "rollingSyncFailed": "Could not sync the saved strategy.",
+        "paramRangesParseFailed": "Could not parse parameter ranges.",
+        "historySliceSaveFailed": "Could not save history slice.",
+        "capitalSyncFailed": "Could not read the strategy's capital settings; defaults were used.",
+        "historyRehydrateFailed": "Could not auto-restore history from cache.",
+        "savedOptimizationsLoadFailed": "Could not load saved optimizations.",
+        "availableOptimizationsLoadFailed": "Could not load available optimizations.",
+        "optimizationDetailLoadFailed": "Could not load optimization detail.",
+        "optimizationRetestPrepFailed": "Could not prepare optimization for retest.",
+        "strategyFileReadFailed": "Could not read selected strategy.",
+        "strategyCatalogUpdateFailed": "Could not update strategy catalog.",
+        "historyRepositoryLoadFailed": "Could not load history repository.",
+        "historyRepositoryFetchFailed": "Could not fetch history repository.",
+        "optimizationPauseFailed": "Could not pause optimization.",
+        "optimizationStopFailed": "Could not stop optimization.",
+        "catalogsSyncFailed": "Could not sync remote catalogs.",
+        "emptyFileSelected": "Selected file is empty.",
+        "emptyWindow": "The selected date range contains no bars from the dataset.",
+        "datasetNotFound": "The requested dataset could not be found.",
+        "datasetEmpty": "The requested dataset has no usable data."
+      },
+      "labels": {
+        "combinations": "combinations",
+        "rollingCost": "Rolling: {{perFold}} × {{folds}} folds = {{total}} evaluations",
+        "selectedParameters": "Selected parameters",
+        "importedFile": "File {{id}}",
+        "filters": "Filters",
+        "jumps": "Jumps:"
+      },
+      "summary": {
+        "wf": {
+          "holdout": "Train {{train}}% · Val {{val}}%",
+          "rolling": "{{folds}} folds · Train {{train}}% · Val {{val}}% · Metric {{metric}}",
+          "triggerCycles": "every {{count}} cycles",
+          "triggerNewBest": "on new best",
+          "triggerEveryPass": "every passed strategy",
+          "cutoff": "Cutoff {{date}}",
+          "baseline": "Baseline per fold"
+        },
+        "mc": {
+          "curves": "{{count}} curves",
+          "modes": "Modes: {{modes}}",
+          "noModes": "No active modes",
+          "threshold": "Threshold {{value}}%",
+          "triggerCycles": "every {{count}} cycles",
+          "triggerNewBest": "on new best",
+          "triggerEveryPass": "every passed"
+        }
+      }
+    }
+  }
+}
