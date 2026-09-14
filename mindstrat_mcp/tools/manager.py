@@ -114,7 +114,7 @@ def _shape_detail(payload: dict[str, Any], include_code: bool) -> dict[str, Any]
     trades = payload.get("trades")
     if isinstance(trades, list):
         result["trades_available"] = len(trades)
-        result["trades_hint"] = "Use get_strategy_trades to page through them."
+        result["trades_hint"] = "Use get_strategy_orders to page through them."
     return round_numbers(result)
 
 
@@ -193,7 +193,7 @@ def _is_final_close(trade: Mapping[str, Any]) -> bool:
     )
 
 
-async def get_strategy_trades(
+async def get_strategy_orders(
     client: BackendClient,
     strategy_id: int,
     event_type: str | None = None,
@@ -205,13 +205,14 @@ async def get_strategy_trades(
     limit: int | None = None,
     offset: int = 0,
 ) -> dict[str, Any]:
-    """Page through a saved strategy's trade events, filtered and summarised.
+    """Page through a saved strategy's individual fills, filtered and summarised.
 
-    The stored list is the engine's raw event log — open and close rows, not
-    paired positions — so profit lives on the close rows, and the outcome and
-    profit filters implicitly narrow to final closes. The summary aggregates
-    the matching final closes only; the strategy's headline metrics still come
-    from get_strategy_detail, never from recomputing this list.
+    These are orders, not trades: the engine's raw event log, one row per fill,
+    with open and close rows rather than paired positions. Profit lives on the
+    close rows, so the outcome and profit filters implicitly narrow to final
+    closes. The summary aggregates the matching final closes only; the
+    strategy's headline metrics still come from get_strategy_detail, never from
+    recomputing this list.
     """
     if event_type and event_type not in ("open", "close"):
         raise McpToolError("event_type must be 'open' or 'close'")

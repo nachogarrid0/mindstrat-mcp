@@ -703,10 +703,13 @@ async def get_backtest(backtest_id: str = "latest") -> dict:
 @mcp.tool(
     name="get_backtest_trades",
     description=(
-        "Page through the trades of a backtest (max 30 per call) with filters "
-        "for side, outcome, PnL range and entry/exit signal text. The response "
-        "also carries a summary computed over ALL matching trades, not just "
-        "the returned page."
+        "Page through the closed positions of a backtest (max 30 per call) "
+        "with filters for side, outcome, PnL range and entry/exit signal text. "
+        "The response also carries a summary computed over ALL matching "
+        "trades, not just the returned page. These are paired round trips, one "
+        "row per entry-to-exit cycle — for the individual fills that built "
+        "them, including pyramid legs and partial closes, use "
+        "get_backtest_orders."
     ),
     annotations=READ_ONLY,
 )
@@ -732,6 +735,45 @@ async def get_backtest_trades(
         entry_signal_contains,
         exit_signal_contains,
         sort_by,
+        limit,
+        offset,
+    )
+
+
+@mcp.tool(
+    name="get_backtest_orders",
+    description=(
+        "Page through the individual fills of a backtest (max 100 per call) — "
+        "what the Orders tab of the Code Creator shows. One row per execution: "
+        "time, type ('buy'/'sell'/'close'), price, size, signal, and the "
+        "commission that fill actually paid.\n"
+        "Use this rather than get_backtest_trades when HOW a position was "
+        "built matters: pyramid legs and partial closes are separate rows "
+        "here, and are invisible once they are paired into a closed trade. "
+        "Each row carries leg_index, is_pyramid, is_partial_close and "
+        "is_final_close, so a multi-leg strategy can be read leg by leg.\n"
+        "Filter by type, signal_contains, only_pyramids or "
+        "only_partial_closes. Never sum these rows to compute a metric — the "
+        "app owns those, and one position is several rows here."
+    ),
+    annotations=READ_ONLY,
+)
+async def get_backtest_orders(
+    backtest_id: str = "latest",
+    type: str | None = None,
+    signal_contains: str | None = None,
+    only_pyramids: bool = False,
+    only_partial_closes: bool = False,
+    limit: int = 30,
+    offset: int = 0,
+) -> dict:
+    return await creator_tools.get_backtest_orders(
+        client,
+        backtest_id,
+        type,
+        signal_contains,
+        only_pyramids,
+        only_partial_closes,
         limit,
         offset,
     )
@@ -827,7 +869,7 @@ async def list_manager_strategies(
         "config and robustness results (HoldOut train/val/full metrics, "
         "WalkForwardRolling per-fold is_*/val_* values, Monte Carlo scores and "
         "tiers). Trade lists and chart series are omitted — use "
-        "get_strategy_trades for trades. Robustness numbers come from the "
+        "get_strategy_orders for the fills. Robustness numbers come from the "
         "backend and must not be recomputed from trades."
     ),
     annotations=READ_ONLY,
@@ -837,14 +879,15 @@ async def get_strategy_detail(strategy_id: int, include_code: bool = False) -> d
 
 
 @mcp.tool(
-    name="get_strategy_trades",
+    name="get_strategy_orders",
     description=(
-        "Page through a saved strategy's trade events with filters and a "
+        "Page through a saved strategy's individual fills with filters and a "
         "summary over everything that matched, not just the returned page. "
-        "The rows are the engine's raw event log — open and close rows, not "
-        "paired positions — so profit lives on the close rows, and the "
-        "outcome and profit filters narrow to final closes (partial closes "
-        "excluded, as the app's own metrics count them). Filter by "
+        "These are ORDERS, not trades: one row per fill, open and close rows "
+        "rather than paired positions, so summing them double-counts. Profit "
+        "lives on the close rows, and the outcome and profit filters narrow to "
+        "final closes (partial closes excluded, as the app's own metrics "
+        "count them). Filter by "
         "event_type ('open'/'close'), outcome ('winners'/'losers'/"
         "'breakeven'), min_profit/max_profit, or signal_contains; sort with "
         "'chronological', 'profit_desc' or 'profit_asc'. The strategy's "
@@ -853,7 +896,7 @@ async def get_strategy_detail(strategy_id: int, include_code: bool = False) -> d
     ),
     annotations=READ_ONLY,
 )
-async def get_strategy_trades(
+async def get_strategy_orders(
     strategy_id: int,
     event_type: str | None = None,
     outcome: str | None = None,
@@ -864,7 +907,7 @@ async def get_strategy_trades(
     limit: int | None = None,
     offset: int = 0,
 ) -> dict:
-    return await manager_tools.get_strategy_trades(
+    return await manager_tools.get_strategy_orders(
         client, strategy_id, event_type, outcome, min_profit, max_profit,
         signal_contains, sort_by, limit, offset,
     )

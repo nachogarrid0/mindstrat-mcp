@@ -1,6 +1,6 @@
 # Tool catalogue
 
-56 tools across six groups. Every one but `lookup_indicator` is a thin wrapper
+57 tools across six groups. Every one but `lookup_indicator` is a thin wrapper
 over the app's local HTTP API: the MCP server never computes trading results, it
 calls the same endpoints the desktop screens call and reshapes the response so
 it fits in a model's context. (`lookup_indicator` reads the indicator catalogues from the manual that ships
@@ -85,7 +85,8 @@ again, and save only once the strategy holds up.
 | `get_price_window` **RO** | A bounded OHLCV window, max 500 bars. Accepts ISO-8601 or epoch seconds. | `GET /strategies/datasets/{id}/bars` |
 | `list_backtests` **RO** | Stored backtests with headline metrics. | `GET /ai/tools/list_backtests` |
 | `get_backtest` **RO** | One backtest's metrics; `"latest"` reads the last run. | `GET /ai/tools/get_backtest` |
-| `get_backtest_trades` **RO** | Trades page (max 30) plus a summary over the whole filtered set. | `GET /ai/tools/get_trades` |
+| `get_backtest_trades` **RO** | Closed positions, paged (max 30), plus a summary over the whole filtered set. One row per entry-to-exit round trip. | `GET /ai/tools/get_trades` |
+| `get_backtest_orders` **RO** | The individual fills behind those trades, paged (max 100) — what the Orders tab shows. One row per execution, carrying `leg_index`, `is_pyramid`, `is_partial_close`, `is_final_close` and the commission that fill actually paid. Pairing hides how a position was built; this is where a pyramid or a scale-out is visible. | `GET /ai/tools/get_orders` |
 | `run_backtest` | Headless backtest of a saved strategy **or** arbitrary code. Leaves the editor session untouched. | `POST /ai/tools/run_backtest_from_strategy` \| `_from_code` |
 | `run_python` | Persistent Python kernel with the `ms` SDK, pandas and pandas-ta. Uses its own `chat_id` namespace so it never collides with the app's chat kernels. | `POST /ai/kernel/run`, `/ai/kernel/kill` |
 
@@ -95,7 +96,7 @@ again, and save only once the strategy holds up.
 |---|---|---|
 | `list_manager_strategies` **RO** | Saved strategies with filters (search, symbol, timeframe, active robustness methods, favourites, metric predicates) and sorting. | `GET /manager/strategies` |
 | `get_strategy_detail` **RO** | Metrics, extended metrics, robustness and capital config. Trade lists and chart series are removed. | `GET /manager/strategies/{id}/detail` |
-| `get_strategy_trades` **RO** | Page the trade events out of that same response, with filters (event type, outcome, profit range, signal text) and a summary over all matching final closes. The rows are the raw engine event log, not paired positions. | same endpoint |
+| `get_strategy_orders` **RO** | Page the fills out of that same response, with filters (event type, outcome, profit range, signal text) and a summary over all matching final closes. These are orders, not trades: the raw engine event log, one row per fill, so summing them double-counts. | same endpoint |
 | `list_metric_filters` **RO** | The metric vocabulary a `metrics_filter` can be built from: keys, bounds, operators and a worked example. | `GET /manager/strategies/metric-sections` |
 | `list_optimizations` **RO** | Optimization runs. | `GET /manager/optimizations` |
 | `get_optimization_summary` **RO** | One run's summary and totals — the light endpoint, safe on huge runs. Each active robustness test reports where its own results live. | `GET /manager/optimizations/{id}/metadata` |

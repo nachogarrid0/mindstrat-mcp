@@ -396,6 +396,35 @@ async def get_backtest_trades(
     )
 
 
+async def get_backtest_orders(
+    client: BackendClient,
+    backtest_id: str = "latest",
+    type: str | None = None,
+    signal_contains: str | None = None,
+    only_pyramids: bool = False,
+    only_partial_closes: bool = False,
+    limit: int = 30,
+    offset: int = 0,
+) -> dict[str, Any]:
+    """Fetch a page of individual fills plus a summary over all matching ones."""
+    if type and type not in ("buy", "sell", "close"):
+        raise McpToolError("type must be 'buy', 'sell' or 'close'")
+    return round_numbers(
+        await client.get(
+            "/ai/tools/get_orders",
+            params={
+                "backtest_id": backtest_id,
+                "type": type,
+                "signal_contains": signal_contains,
+                "only_pyramids": only_pyramids,
+                "only_partial_closes": only_partial_closes,
+                "limit": max(1, min(limit, 100)),
+                "offset": offset,
+            },
+        )
+    )
+
+
 async def run_backtest(
     client: BackendClient,
     dataset_id: str,
