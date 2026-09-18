@@ -20,6 +20,7 @@ commission         a PERCENT of fill notional. 0.05 means 0.05% = 5 bps
 commission_type    "percent" | "fixed"   ("fixed" = a flat amount per fill)
 slippage_mode      "none" | "fixed" | "volume"
 slippage_bps       BASIS POINTS. 5 means 5 bps = 0.05%
+risk_free_rate     ANNUAL, a PERCENT. 2 means 2%/year. Defaults to 2
 ```
 
 For Binance futures a realistic figure is **0.05 per side** (5 bps), charged per fill — so a round trip pays it twice. A stress run at 0.10 is a reasonable harsher setting.
@@ -27,6 +28,11 @@ For Binance futures a realistic figure is **0.05 per side** (5 bps), charged per
 Three traps in this block:
 
 - **`commission` is a percent; `slippage_bps` is basis points.** They sit next to each other and differ by 100×. Entering `5` in both gives 500 bps of commission against 5 bps of slippage.
+- **`risk_free_rate` is the only setting that does not change a fill.** It changes what
+  the run is COMPARED against: it is the risk-free of the Sharpe numerator and the target
+  the Sortino measures shortfalls below. Raising it lowers both ratios without touching a
+  single trade. It is saved with the strategy, so a stored Sharpe can be traced back to
+  the rate that produced it.
 - **`slippage_bps` does nothing unless `slippage_mode` is `"fixed"`.** The mode defaults to `"none"`, and in that mode the price is returned untouched before the bps value is ever read. Set the two together or neither.
 - **`order_size` means three different things** and the label never changes. Under `fixed_value` it is quote-currency notional; under `fixed_qty` it is base-asset contracts; under `percent_of_equity` it is a percent on a 0-100 scale — `10` means 10%, and `1.0` means 1%. Changing the mode does not re-seed the value, so a `fixed_value` of 1000 becomes 1000% of equity with one dropdown change.
 
@@ -43,7 +49,10 @@ Also worth knowing: `initial_capital` does not constrain position size. There is
 | `order_size` under `percent_of_equity` | percent, 0-100 | `10` = 10% |
 | Win rate | **0-100** | Never multiply by 100 |
 | ROI | percent, 0-100 | |
-| Drawdown (optimizer / manager) | **negative currency**, not a percent | A filter of `>= -500` means "lost at most 500 quote currency peak-to-trough" |
+| Drawdown (optimizer / manager) | **positive currency**, not a percent | The DEPTH of the peak-to-trough decline, so a filter of `<= 500` means "lost at most 500 quote currency". It used to be written negative; filters saved before that change are bounded the wrong way and match nothing |
+| `drawdown_pct` | **fraction, 0-1** | The same decline as a share of the running peak. `0.31` = 31%. Not derived from `drawdown` — it is the largest per-bar percentage, which is not the largest absolute drop divided by anything |
+| `sharpe`, `sortino` | ratios, annualised | On the equity curve's periodic returns, against `risk_free_rate`. Null when the run had too few returns to produce one — never read a missing ratio as 0 |
+| `unrealized` | currency | What the position still open at the last bar is worth, marked at that bar's close. **Never** part of `profit`, which is realized only |
 | Monte Carlo mode parameters | **fractions, 0-1**, at the engine | The screen shows percentages and divides by 100. Writing them directly means `0.05`, not `5` |
 | Monte Carlo `bootstrap.block_size` | **a number of trades** | The one MC parameter that is not a fraction |
 | Monte Carlo score | stored 0-1, displayed ×100 | |
@@ -69,9 +78,11 @@ A name that is not one the engine knows **silently falls back to `Random`**, so 
 
 ### Objective metric
 
-**Only `profit` and `winrate` actually work.** The dropdown also offers `sharpe`, and the rolling dialog offers `sqn`, but neither key exists in the engine's metrics. The comparison reads a missing key as 0, so with one of those selected **every candidate scores 0, nothing ever beats anything, and the run's "best" is simply the first cycle evaluated** — with no error, and the run persists normally.
+`profit`, `winrate` and `sharpe` work. The rolling dialog also offers `sqn`, and **that key still does not exist** in the engine's metrics: the comparison reads a missing key as 0, so every candidate scores 0, nothing ever beats anything, and the run's "best" is simply the first cycle evaluated — with no error, and the run persists normally.
 
-If you want risk-adjusted selection, optimise on `profit` and constrain the rest with metric filters.
+`sharpe` had exactly that defect until 2026-09-17 and now does not: the engine emits it. Optimising by it selects for return per unit of volatility, measured against `risk_free_rate`, so raising the rate changes which candidate wins.
+
+One caveat on any ratio as an objective: a run with two trades can post a high Sharpe. Pair it with a `trades` floor in the metric filters.
 
 ### Parameter ranges
 

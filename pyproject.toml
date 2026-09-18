@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mindstrat-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "Drive the MindStrat desktop trading app from Claude Code, and write strategies in its MSF format."
 readme = "README.md"
 requires-python = ">=3.10"

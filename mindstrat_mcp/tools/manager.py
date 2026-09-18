@@ -452,6 +452,11 @@ def _holdout_comparison(
     candidate's parameters; the full period is the replay the detail endpoint
     recomputes. Runs from older versions stored only the validation half, so
     the train column can legitimately be missing.
+
+    No unrealized PnL row, and not by omission: it values the position left open
+    at the END of a slice, so the training figure is a position the strategy had
+    not finished building. Comparing it across periods compares two different
+    open positions and answers nothing.
     """
     stored = stored if isinstance(stored, Mapping) else {}
     replayed = replayed if isinstance(replayed, Mapping) else {}
@@ -467,6 +472,11 @@ def _holdout_comparison(
         ("profit_factor", "is_pf", "val_pf", "pf"),
         ("max_drawdown", "is_dd", "val_dd", "drawdown"),
         ("avg_trade", "is_avg", "val_avg", "avg"),
+        # Only on runs stored after the risk ratios were persisted. An older
+        # entry has no such key and the row is dropped rather than shown as 0 —
+        # a slice with no Sharpe is not a slice with a Sharpe of zero.
+        ("sortino", "is_sortino", "val_sortino", "sortino"),
+        ("sharpe", "is_sharpe", "val_sharpe", "sharpe"),
     ):
         row = {
             "train": _as_number(stored.get(is_key)),

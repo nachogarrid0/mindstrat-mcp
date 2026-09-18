@@ -173,10 +173,10 @@ defaults lie. Three things are worth knowing before the first run:
 
 > A `method` that is not one of the seven **silently falls back to `Random`**.
 >
-> The objective `metric` accepts only `profit` and `winrate`. `sharpe` is
-> offered by the screen but does not exist in the engine, so selecting it
-> makes every candidate score 0 and the run's "best" is whichever cycle was
-> evaluated first — with no error.
+> The objective `metric` accepts `profit`, `winrate` and `sharpe`. The rolling
+> dialog's `sqn` still does not exist in the engine, so selecting it makes every
+> candidate score 0 and the run's "best" is whichever cycle was evaluated first
+> — with no error.
 >
 > Any strategy that exits on TP/SL needs the `intrabar` test before its numbers
 > mean anything — otherwise the engine is guessing which level a candle hit

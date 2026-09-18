@@ -1004,6 +1004,10 @@ def _panel_capital(capital: Any) -> dict[str, Any]:
         "slippage_mode": "slippageMode",
         "slippage_bps": "slippageBps",
         "slippage_k": "slippageK",
+        # This mapping IS the whitelist — a key missing from it is dropped
+        # without an error, so `configure_optimization(capital_cfg=
+        # {"risk_free_rate": 3})` would silently do nothing.
+        "risk_free_rate": "riskFreeRate",
     }
     return {
         panel_key: capital[api_key]

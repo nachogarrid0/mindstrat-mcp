@@ -152,13 +152,15 @@
         "columns": {
           "index": "#",
           "category": "Category",
-          "detail": "Detail",
           "pnl": "Curve",
           "profit": "Net Profit",
+          "unrealized": "Unrealized PnL",
           "roi": "ROI %",
           "trades": "Trades",
           "winrate": "Win Rate",
           "drawdown": "Max DD",
+          "sortino": "Sortino",
+          "sharpe": "Sharpe",
           "error": "Error"
         },
         "searchPlaceholder": "Search by parameters",
@@ -247,6 +249,7 @@
         "commissionFixed": "Commission ($)",
         "commission": "Commission",
         "commissionType": "Commission Type",
+        "riskFreeRate": "Risk-Free Rate (%)",
         "commissionTypes": {
           "percent": "Percent (%)",
           "fixed": "Fixed ($)"
